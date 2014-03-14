@@ -326,8 +326,10 @@ dt:hover > a.headerlink {
                 <h1>IATI Standard is a technical publishing framework allowing data to be compared. This site gives detail on the standard, how to implement it and provides guidance.</h1>
             </div>
         {% else %}
+            {% if pagename != 'activity-schema-table' %}
 		<div id="primary">
 			<div id="content" role="main">
+            {% endif %}
 
 				
 					
@@ -348,6 +350,7 @@ dt:hover > a.headerlink {
   {%- endblock %}
 </article>
 
+            {% if pagename != 'activity-schema-table' %}
 						<div id="comments">
 	
 	
@@ -376,6 +379,7 @@ dt:hover > a.headerlink {
 
 
 		</aside></div><!-- #secondary .widget-area -->
+            {% endif %}
         {% endif %}
 </div><!--#page-content -->
 </div><!--#page -->
