@@ -146,9 +146,9 @@
 
 
 {% if pagename == 'index' %}
-    <body class="home page page-id-17 page-template page-template-template-home-page-php single-author singular two-column left-sidebar">
+    <body class="home page page-template page-template-template-home-page-php single-author singular two-column left-sidebar">
 {% else %}
-    <body class="page page-id-1379 page-parent page-template-default  single-author singular two-column left-sidebar">
+    <body class="page page-parent page-template-default single-author singular two-column left-sidebar">
 {% endif %}
 <a id="top"></a>
     <div id="site-notice" style="background-color: red"><strong>This is a draft development version of the iatistandard documentation.</strong></div>
@@ -176,14 +176,28 @@
     <li class="registry"><a href="http://iatiregistry.org">IATI Registry / Data</a></li>
     <li class="community"><a href="http://support.iatistandard.org">IATI Community</a></li>
 </ul>
-            <ul id="menu-primary-navigation" class="menu-main">
-<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{{ pathto('overview') }}">Getting Started</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page"><a title=" The IATI Activities Standard" href="{{ pathto('activities-standard') }}">Activities</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page"><a title=" The Organisation Standard" href="{{ pathto('organisation-standard') }}">Organisation</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{{ pathto('codelists') }}">Code Lists</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{{ pathto('schema') }}">IATI Schema</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{{ pathto('updates') }}">Updates</a></li>
-<li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="{{ pathto('developer') }}">Developers</a></li>
+<ul id="menu-primary-navigation" class="menu-main">
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('overview') or pagename.startswith('publishing-to-iati') %}current-menu-item{% endif %}">
+        <a href="{{ pathto('overview') }}">Getting Started</a>
+    </li>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('activities-standard') %}current-menu-item{% endif %}">
+        <a title=" The IATI Activities Standard" href="{{ pathto('activities-standard') }}">Activities</a>
+    </li>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('organisation-standard') %}current-menu-item{% endif %}">
+        <a title=" The Organisation Standard" href="{{ pathto('organisation-standard') }}">Organisation</a>
+    </li>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('codelists') %}current-menu-item{% endif %}">
+        <a href="{{ pathto('codelists') }}">Code Lists</a>
+    </li>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('schema') %}current-menu-item{% endif %}">
+        <a href="{{ pathto('schema') }}">IATI Schema</a>
+    </li>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('updates') %}current-menu-item{% endif %}">
+        <a href="{{ pathto('updates') }}">Updates</a>
+    </li>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('developer') %}current-menu-item{% endif %}">
+        <a href="{{ pathto('developer') }}">Developers</a>
+    </li>
 </ul>        </nav>
 
     </div><!-- end header -->
@@ -209,7 +223,7 @@
 
 				
 					
-<article id="post-1379" class="post-1379 page type-page status-publish hentry">
+<article class="page type-page status-publish hentry">
 	<div class="entry-content">
   {%- block document %}
       <div class="documentwrapper">
