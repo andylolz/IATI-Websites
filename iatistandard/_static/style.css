@@ -48,7 +48,7 @@ ol {
     padding: 20px 20px 25px 5px;
 }
 
-.entry-content h3{
+.entry-content h2 {
     padding-bottom: 0.25em;
     /*border-bottom: 1px dashed rgb(190,190,190);*/
     background: transparent url(./library/images/border-dashed-background.png) repeat-x bottom left;
