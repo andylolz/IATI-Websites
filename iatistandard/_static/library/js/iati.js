@@ -126,7 +126,7 @@
             var $treeContainer = $( treeContainer );
             var $tree = $treeContainer.find('ul').first();
             //Path to image assets
-            var IATIStandard = {"themePath":"http:\/\/iatistandard.org\/wp-content\/themes\/iatistandard","ajaxUrl":"http:\/\/dev.iatistandard.org\/wp-admin\/admin-ajax.php"};
+            var IATIStandard = {"themePath":"http:\/\/iatistandard.org\/wp-content\/themes\/iatistandard"};
             var toggleImgPath = IATIStandard.themePath + "/library/images/icons/arrows-theme-accent-right.png";
             var toggleImgPathOpen = IATIStandard.themePath + "/library/images/icons/arrows-theme-accent-down.png";
 
@@ -151,29 +151,32 @@
             //Find all pages with children and paint them
             $treeContainer.find('ul.children').closest('li').addClass('page-has-children');
             //Paint levels
-            $treeContainer.find('> ul.pages-root> li').addClass('level-0');
+            $treeContainer.find('ul.pages-root > li').addClass('level-0');
 
 
             //Add toggles to all li with submenus
-            $tree.find('li.page-has-children').each(function(i){
-                var $toggleImage = $('<img src="' + toggleImgPath + '" alt="Click to expand"/>');
-                var $toggle = $('<span class="toggle"></span>');
-                $toggle.prepend($toggleImage);
-                $(this).prepend($toggle);
+            $tree.find('ul').each(function(i){
+                if (!$(this).hasClass('simple')) {
+                    var $toggleImage = $('<img src="' + toggleImgPath + '" alt="Click to expand"/>');
+                    var $toggle = $('<span class="toggle"></span>');
+                    $toggle.prepend($toggleImage);
+                    $(this).parent().prepend($toggle);
+                    $(this).parent().addClass('page-has-children');
+                }
             });
 
             //Setup the initial menu state...
-            $treeContainer.find('ul.children').hide();
-            var $currentPage = $('li.current_page_item');
-            var $thisSubMenu = $currentPage.find('ul.children').first();
-            $currentPage.parents('ul.children').add($thisSubMenu).each( function(){
+            $treeContainer.find('ul').hide();
+            var $currentPage = $($('a.current').parent());
+            var $thisSubMenu = $currentPage.find('ul').first();
+            $currentPage.parents('ul').add($thisSubMenu).each( function(){
                 toggleSubMenus(this);
             });
 
             // Event handlers for the toggles
             $treeContainer.find('ul').on('click', 'span.toggle' , function(){
                 //Open close the child uls
-                $(this).parent().find('ul.children').first().toggle().toggleClass('open');
+                $(this).parent().find('ul').first().toggle().toggleClass('open');
                 //change toggle images according to state..
                 changeToggleImage(this);
                 return false;

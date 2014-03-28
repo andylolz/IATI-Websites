@@ -285,6 +285,15 @@ dt:hover > a.headerlink {
 #secondary .widget.widget_pages ul li {
   background: transparent url(./library/images/icons/sidebar/page-menu-list-item.gif) no-repeat 0 8px;
 }
+.sphinxsidebarwrapper ul {
+    display:none;
+}
+.sphinxsidebarwrapper ul.current {
+    display: inline;
+}
+.sphinxsidebarwrapper li.current > ul {
+    display: inline;
+}
 #secondary .widget.widget_pages li.current > a {
   font-weight: bold;
 }
