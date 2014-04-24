@@ -1,4 +1,7 @@
 {% extends "layout_base.html" %}
+{% block site_notice %}
+    <div id="site-notice"><strong>This is version {{version}} of the IATI Standard. <a href="/upgrades/all-versions/">See other versions</a>.</strong></div>
+{% endblock %}
 {% block extra_scripts %}
     <script type="text/javascript">
         //<![CDATA[
