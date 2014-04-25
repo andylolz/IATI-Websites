@@ -1,0 +1,225 @@
+{#
+    Derived from:
+
+    basic/layout.html
+    ~~~~~~~~~~~~~~~~~
+
+    Master layout template for Sphinx themes.
+
+    :copyright: Copyright 2007-2011 by the Sphinx team, see AUTHORS.
+    :license: BSD, see LICENSE for details.
+#}
+{%- set reldelim1 = reldelim1 is not defined and ' &raquo;' or reldelim1 %}
+{%- set reldelim2 = reldelim2 is not defined and ' |' or reldelim2 %}
+{%- set render_sidebar = (not embedded) and (not theme_nosidebar|tobool) and
+                         (sidebars != []) %}
+{%- set url_root = pathto('', 1) %}
+{# XXX necessary? #}
+{%- if url_root == '#' %}{% set url_root = '' %}{% endif %}
+
+{%- macro relbar() %}
+    <div class="related">
+      <h3>{{ _('Navigation') }}</h3>
+      <ul>
+        {%- for rellink in rellinks %}
+        <li class="right" {% if loop.first %}style="margin-right: 10px"{% endif %}>
+          <a href="{{ pathto(rellink[0]) }}" title="{{ rellink[1]|striptags|e }}"
+             {{ accesskey(rellink[2]) }}>{{ rellink[3] }}</a>
+          {%- if not loop.first %}{{ reldelim2 }}{% endif %}</li>
+        {%- endfor %}
+        {%- block rootrellink %}
+        <li><a href="{{ pathto(master_doc) }}">{{ shorttitle|e }}</a>{{ reldelim1 }}</li>
+        {%- endblock %}
+        {%- for parent in parents %}
+          <li><a href="{{ parent.link|e }}" {% if loop.last %}{{ accesskey("U") }}{% endif %}>{{ parent.title }}</a>{{ reldelim1 }}</li>
+        {%- endfor %}
+        {%- block relbaritems %} {% endblock %}
+      </ul>
+    </div>
+{%- endmacro %}
+
+{%- macro sidebar() %}
+      {%- if render_sidebar %}
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+          {%- block sidebarlogo %}
+          {%- if logo %}
+            <p class="logo"><a href="{{ pathto(master_doc) }}">
+              <img class="logo" src="{{ pathto('_static/' + logo, 1) }}" alt="Logo"/>
+            </a></p>
+          {%- endif %}
+          {%- endblock %}
+          {%- if sidebars != None %}
+            {#- new style sidebar: explicitly include/exclude templates #}
+            {%- for sidebartemplate in sidebars %}
+            {%- include sidebartemplate %}
+            {%- endfor %}
+          {%- else %}
+            {#- old style sidebars: using blocks -- should be deprecated #}
+            {%- block sidebartoc %}
+            {%- include "localtoc.html" %}
+            {%- endblock %}
+            {%- if customsidebar %}
+            {%- include customsidebar %}
+            {%- endif %}
+            {%- block sidebarsearch %}
+            {%- endblock %}
+          {%- endif %}
+        </div>
+      </div>
+      {%- endif %}
+{%- endmacro %}
+
+{%- macro css() %}
+    <link rel="stylesheet" href="{{ pathto('_static/pygments.css', 1) }}" type="text/css" />
+    {%- for cssfile in css_files %}
+    <link rel="stylesheet" href="{{ pathto(cssfile, 1) }}" type="text/css" />
+    {%- endfor %}
+{%- endmacro %}
+
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html class="no-js ie6" lang="en-GB"> <![endif]-->
+<!--[if IE 7 ]>    <html class="no-js ie7" lang="en-GB"> <![endif]-->
+<!--[if IE 8 ]>    <html class="no-js ie8" lang="en-GB"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!--> <html class="no-js" lang="en-GB"> <!--<![endif]-->
+<head>
+<meta charset="UTF-8" />
+    {%- block htmltitle %}
+    <title>{{ title|striptags|e }} | The IATI Standard</title>
+    {%- endblock %}
+    {%- if not embedded %}
+    {%- if use_opensearch %}
+    <link rel="search" type="application/opensearchdescription+xml"
+          title="{% trans docstitle=docstitle|e %}Search within {{ docstitle }}{% endtrans %}"
+          href="{{ pathto('_static/opensearch.xml', 1) }}"/>
+    {%- endif %}
+    {%- if favicon %}
+    <link rel="shortcut icon" href="{{ pathto('_static/' + favicon, 1) }}"/>
+    {%- endif %}
+    {%- endif %}
+{%- block linktags %}
+    {%- if hasdoc('about') %}
+    <link rel="author" title="{{ _('About these documents') }}" href="{{ pathto('about') }}" />
+    {%- endif %}
+    {%- if hasdoc('genindex') %}
+    <link rel="index" title="{{ _('Index') }}" href="{{ pathto('genindex') }}" />
+    {%- endif %}
+    {%- if hasdoc('search') %}
+    <link rel="search" title="{{ _('Search') }}" href="{{ pathto('search') }}" />
+    {%- endif %}
+    {%- if hasdoc('copyright') %}
+    <link rel="copyright" title="{{ _('Copyright') }}" href="{{ pathto('copyright') }}" />
+    {%- endif %}
+    <link rel="top" title="{{ docstitle|e }}" href="{{ pathto('index') }}" />
+    {%- if parents %}
+    <link rel="up" title="{{ parents[-1].title|striptags|e }}" href="{{ parents[-1].link|e }}" />
+    {%- endif %}
+    {%- if next %}
+    <link rel="next" title="{{ next.title|striptags|e }}" href="{{ next.link|e }}" />
+    {%- endif %}
+    {%- if prev %}
+    <link rel="prev" title="{{ prev.title|striptags|e }}" href="{{ prev.link|e }}" />
+    {%- endif %}
+{%- endblock %}
+{%- block extrahead %} {% endblock %}
+<style type="text/css" media="screen, projection">
+  @import url(//asset0.zendesk.com/external/zenbox/v2.1/zenbox.css);
+</style>
+<!--[if lt IE 9]>
+<script src="{{ pathto('_static/html5.js', 1) }}" type="text/javascript"></script>
+<![endif]-->
+
+<link rel='stylesheet' id='main-stylesheet-css'  href='{{ pathto('_static/style.css', 1) }}' type='text/css' media='all' />
+<script type='text/javascript' src='{{ pathto('_static/library/js/modernizr-2.6.1.min.js', 1) }}'></script>
+<script type='text/javascript' src='{{ pathto('_static/library/js/selectivizr.min.js', 1) }}'></script>
+{{ css() }}
+
+<!-- Open Graph Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="{{ title|striptags|e }}" />
+<meta property="og:site_name" content="The IATI Standard" />
+<meta name="twitter:site" content="@IATI_aid" />
+<meta name="twitter:card" content="summary" />
+<link rel="Shortcut Icon" type="image/x-icon" href="{{ pathto('_static/favicon.ico', 1) }}" />
+
+</head>
+
+
+    <body class="page page-parent page-template-default single-author singular two-column left-sidebar">
+<a id="top"></a>
+    {% block site_notice %}{% endblock %}
+    <div id="page" class="hfeed">
+        <header id="header" role="banner">
+            <div class="header-wrapper">
+                <a id="logo" href="http://iatistandard.org">The IATI Standard</a>
+                <h1>IATI Datastore</h1>
+            </div><!-- end wrapper -->
+            <nav id="main-nav" class="nav" role="navigation">
+            <ul class="iati-family">
+            <li>&nbsp;</li>
+            </ul>
+            <ul id="menu-primary-navigation" class="menu-main">
+            </ul>
+            </nav>
+        </header>
+    </div>
+
+
+    <div id="page-content">
+
+                <div id="nav-breadcrumbs">
+
+{%- block content %}
+    <div id="main">
+            <div id="primary">
+                    <div id="content" role="main">
+		    	
+<article class="page type-page status-publish hentry">
+	<div class="entry-content">
+  {%- block document %}
+      <div class="documentwrapper">
+      {%- if render_sidebar %}
+        <div class="bodywrapper">
+      {%- endif %}
+          <div class="body">
+            {% block body %} {% endblock %}
+          </div>
+      {%- if render_sidebar %}
+        </div>
+      {%- endif %}
+      </div>
+  {%- endblock %}
+</article>
+
+            {% if pagename != 'activities-standard/summary-table' and pagename != 'organisation-standard/summary-table' %}
+			</div><!-- #content -->
+
+		</div><!-- #primary -->
+
+<div id="secondary" class="widget-area" role="complementary">
+    <aside id="pages-3" class="widget-1 widget-first widget-odd widget widget_pages"><h3 class="widget-title">Pages</h3>
+  {%- block sidebar2 %} {{ sidebar() }} {% endblock %}
+		</aside>
+            {% endif %}
+</div><!--#page-content -->
+</div><!--#page -->
+{%- endblock %}
+
+<div id="pre-footer">
+</div>
+</div>
+</div>
+
+<footer id="footer">
+    <div id="footer-credits">
+        <span class="glyphicons">Released under the MIT license.</span>
+    </div>
+    <!--.footer-inner -->
+</footer><!--#footer -->
+
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js?ver=1.8.2'></script>
+    <script type='text/javascript' src='{{ pathto('_static/library/js/iati.js', 1) }}'></script>
+    <script type='text/javascript' src='{{ pathto('_static/library/js/common.js', 1) }}'></script>
+    <script type="text/javascript" src="//asset0.zendesk.com/external/zenbox/v2.1/zenbox.js"></script>
+    </body>
+</html>
