@@ -176,20 +176,14 @@
     <li class="community"><a href="http://support.iatistandard.org">IATI Community</a></li>
 </ul>
 <ul id="menu-primary-navigation" class="menu-main">
-    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('how-to-publish') %}current-menu-item{% endif %}">
-        <a href="{{ pathto('how-to-publish') }}">How To Publish</a>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('introduction') %}current-menu-item{% endif %}">
+        <a href="{{ pathto('introduction') }}">Introduction</a>
     </li>
-    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('activity-standard') %}current-menu-item{% endif %}">
-        <a title="The IATI Activity Standard" href="{{ pathto('activity-standard') }}">Activity Standard</a>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('guidance') %}current-menu-item{% endif %}">
+        <a href="{{ pathto('guidance') }}">Guidance</a>
     </li>
-    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('organisation-standard') %}current-menu-item{% endif %}">
-        <a title="The IATI Organisation Standard" href="{{ pathto('organisation-standard') }}">Organisation Standard</a>
-    </li>
-    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('codelists') %}current-menu-item{% endif %}">
-        <a href="{{ pathto('codelists') }}">Codelists</a>
-    </li>
-    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('schema') %}current-menu-item{% endif %}">
-        <a href="{{ pathto('schema') }}">IATI Schema</a>
+    <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('reference') or pagename.startswith('organisation-identifiers') or pagename.startswith('activity-standard') or pagename.startswith('organisation-standard') or pagename.startswith('codelists') or pagename.startswith('schema') %}current-menu-item{% endif %}">
+        <a title="Reference" href="{{ pathto('reference') }}">Reference</a>
     </li>
     <li class="menu-item menu-item-type-post_type menu-item-object-page {% if pagename.startswith('upgrades') %}current-menu-item{% endif %}">
         <a href="{{ pathto('upgrades') }}">Upgrades</a>
