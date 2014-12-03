@@ -1,6 +1,11 @@
 Europe/London:
     timezone.system
 
+/root/.ssh/authorized_keys:
+  file.append:
+    - text: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCt/aeDYnB9X83BV3d30ntgLqXRApEZ+7vvKdC84B9nxO30ZZ+TNThUjFkW3x+1I04/p4rmkYx2e5LdpZLMpqLzIvixel318BzMf5K4E8qBkgChk3BVD65PmhTIWyv+BdYiMLdJsv9N699yFqfLhxgU7rxnCbmjIFhOzBDcsaa2h88SFvTRYxC0rITjt4jZyFgUHj+5Sw2i/HnwaojyvooHQ+aZrXRY9hazWsFunijZ/SgOsvHgUl4MiSj2Lv4zD36vLvmJJ1CJhpe6Vzqpc6ymCmjm5IU7XfHs4AvqIFoIJdbXJMgaJO4uhBDUINrBON8WhfEpmKgN2LFohVdbH5AN bjwebb@webbpad 
+    - makedirs: True
+
 dashboard:
   user.present:
     - home: /home/dashboard
@@ -13,7 +18,7 @@ stats-deps:
             - python-virtualenv
             - python-dev
             - libxml2-dev
-            - libxslt-dev
+            - libxslt1-dev
             - zlib1g-dev
 
 #superscript > /tmp/crontest:
@@ -48,7 +53,7 @@ dashboard-deps:
     pkg.installed:
         - pkgs:
             - libfreetype6-dev
-            - libpng-dev
+            - libpng12-dev
             - pkg-config
 
 /home/dashboard/IATI-Dashboard/pyenv/:
@@ -73,6 +78,10 @@ dashboard-deps:
     cmd.run:
         - cwd: /home/dashboard/IATI-Stats/helpers/
 
+/home/dashboard/IATI-Stats/helpers/get_codelists.sh:
+    cmd.run:
+        - cwd: /home/dashboard/IATI-Stats/helpers/
+
 https://github.com/IATI/IATI-Rulesets.git:
     git.latest:
         - rev: version-1.05
@@ -85,3 +94,8 @@ https://github.com/IATI/IATI-Rulesets.git:
 
 curl http://dashboard.iatistandard.org/stats/ckan.json > /home/dashboard/IATI-Stats/helpers/ckan.json:
     cmd.run
+
+/home/dashboard/IATI-Dashboard/stats-calculated:
+    file.symlink:
+        - target: /home/dashboard/IATI-Stats/gitout
+
