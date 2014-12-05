@@ -64,6 +64,13 @@ dashboard-deps:
             - pkg: stats-deps
             - pkg: dashboard-deps
 
+/home/dashboard/IATI-Dashboard/config.py:
+    file.managed:
+        - source: salt://dashboard-config.py
+        - user: dashboard
+        - template: jinja
+
+
 # Get some data
 #git://vagranthost/:
 #  git.latest:
@@ -99,3 +106,23 @@ curl http://dashboard.iatistandard.org/stats/ckan.json > /home/dashboard/IATI-St
     file.symlink:
         - target: /home/dashboard/IATI-Stats/gitout
 
+webserver-deps:
+    pkg.installed:
+        - pkgs:
+            - apache2
+
+/etc/apache2/sites-available/new.dashboard.conf:
+  file.managed:
+    - source: salt://dashboard-apache
+
+/etc/apache2/sites-enabled/new.dashboard.conf:
+    file.symlink:
+        - target: /etc/apache2/sites-available/new.dashboard.conf
+
+apache2:
+  service:
+    - running
+    - enable: True
+    - reload: True
+    - watch:
+      - file: /etc/apache2/sites-available/new.dashboard.conf
