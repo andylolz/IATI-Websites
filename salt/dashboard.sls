@@ -126,3 +126,17 @@ apache2:
     - reload: True
     - watch:
       - file: /etc/apache2/sites-available/new.dashboard.conf
+
+basic-server-deps:
+    pkg.installed:
+        - pkgs:
+            - unattended-upgrades
+
+/etc/apt/apt.conf.d/50unattended-upgrades:
+  file.managed:
+    - source: salt://50unattended-upgrades
+
+/etc/apt/apt.conf.d/10periodic:
+  file.managed:
+    - source: salt://10periodic
+
