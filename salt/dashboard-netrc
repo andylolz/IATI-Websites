@@ -1,0 +1,1 @@
+machine github.com login {{pillar['github_user']}} password {{pillar['github_password']}}

@@ -10,6 +10,48 @@ dashboard:
   user.present:
     - home: /home/dashboard
 
+git config --global user.name "Dashboard":
+  cmd.run
+
+git config --global user.email "code@iatistandard.org":
+  cmd.run
+
+registry-refresher-deps:
+  pkg.installed:
+    - pkgs:
+      - php5-cli
+      - php5-curl
+      - libxml2-utils
+      - gist
+
+/usr/bin/gist:
+  file.symlink:
+    - target: /usr/bin/gist-paste
+
+https://github.com/IATI/IATI-Registry-Refresher.git:
+  git.latest:
+    - rev: master
+    - target: /home/dashboard/IATI-Registry-Refresher
+    - user: dashboard
+
+/home/dashboard/.netrc:
+  file.managed:
+    - source: salt://dashboard-netrc
+    - user: dashboard
+    - template: jinja
+
+https://github.com/idsdata/IATI-Urls-Snapshot.git:
+  git.latest:
+    - rev: master
+    - target: /home/dashboard/IATI-Registry-Refresher/urls
+    - user: dashboard
+
+/home/dashboard/IATI-Registry-Refresher/ckan:
+  file.directory:
+    - makedirs: True
+    - user: dashboard
+    - group: dashboard
+
 stats-deps:
     pkg.installed:
         - pkgs:
@@ -70,12 +112,15 @@ dashboard-deps:
         - user: dashboard
         - template: jinja
 
+/home/dashboard/IATI-Stats/data:
+  file.symlink:
+    - target: /home/dashboard/IATI-Registry-Refresher/data
+    - user: dashboard
 
-# Get some data
-#git://vagranthost/:
-#  git.latest:
-#    - target: /home/dashboard/IATI-Stats/data
-#    - user: dashboard
+/home/dashboard/IATI-Stats/helpers/ckan:
+  file.symlink:
+    - target: /home/dashboard/IATI-Registry-Refresher/ckan
+    - user: dashboard
 
 /home/dashboard/IATI-Stats/helpers/get_schemas.sh:
     cmd.run:
@@ -98,9 +143,6 @@ https://github.com/IATI/IATI-Rulesets.git:
 /home/dashboard/IATI-Stats/helpers/rulesets:
     file.symlink:
         - target: /home/dashboard/IATI-Stats/IATI-Rulesets/rulesets
-
-curl http://dashboard.iatistandard.org/stats/ckan.json > /home/dashboard/IATI-Stats/helpers/ckan.json:
-    cmd.run
 
 /home/dashboard/IATI-Dashboard/stats-calculated:
     file.symlink:
