@@ -23,6 +23,7 @@ registry-refresher-deps:
       - php5-curl
       - libxml2-utils
       - gist
+      - zip
 
 /usr/bin/gist:
   file.symlink:
@@ -52,6 +53,12 @@ https://github.com/idsdata/IATI-Urls-Snapshot.git:
     - user: dashboard
     - group: dashboard
 
+/home/dashboard/IATI-Registry-Refresher/zips:
+  file.directory:
+    - makedirs: True
+    - user: dashboard
+    - group: dashboard
+
 stats-deps:
     pkg.installed:
         - pkgs:
@@ -62,13 +69,6 @@ stats-deps:
             - libxml2-dev
             - libxslt1-dev
             - zlib1g-dev
-
-#superscript > /tmp/crontest:
-#  cron.present:
-#    - identifier: STATS
-#    - user: dashboard
-#    - minute: 1
-#    - hour: 0
 
 # Branch name should probably be controlled by a grain
 https://github.com/IATI/IATI-Stats.git:
@@ -181,4 +181,21 @@ basic-server-deps:
 /etc/apt/apt.conf.d/10periodic:
   file.managed:
     - source: salt://10periodic
+
+/home/dashboard/full-dashboard-run.sh:
+  file.managed:
+    - source: salt://full-dashboard-run.sh
+    - user: dashboard
+
+/home/dashboard/logs:
+  file.directory:
+    - makedirs: True
+    - user: dashboard
+    - group: dashboard
+
+/home/dashboard/full-dashboard-run.sh > /home/dashboard/logs/$(date +\%Y\%m\%d).log 2>&1:
+  cron.present:
+    - user: dashboard
+    - minute: 1
+    - hour: 0
 
