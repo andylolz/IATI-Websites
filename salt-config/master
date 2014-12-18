@@ -1,8 +1,12 @@
 file_roots:
   base:
     - salt/
+  dev:
+    - salt/
 
 pillar_roots:
   base:
+    - /srv/pillar
+  dev:
     - /srv/pillar
 

@@ -26,7 +26,11 @@ registry-refresher-deps:
 
 https://github.com/IATI/IATI-Registry-Refresher.git:
   git.latest:
+{% if saltenv == 'dev' %}
     - rev: master
+{% else %}
+    - rev: live 
+{% endif %}
     - target: /home/dashboard/IATI-Registry-Refresher
     - user: dashboard
 
@@ -68,7 +72,11 @@ stats-deps:
 # Branch name should probably be controlled by a grain
 https://github.com/IATI/IATI-Stats.git:
   git.latest:
+{% if saltenv == 'dev' %}
     - rev: master
+{% else %}
+    - rev: live 
+{% endif %}
     - target: /home/dashboard/IATI-Stats
     - user: dashboard
 
@@ -82,7 +90,11 @@ https://github.com/IATI/IATI-Stats.git:
 
 https://github.com/IATI/IATI-Dashboard.git:
   git.latest:
+{% if saltenv == 'dev' %}
     - rev: master
+{% else %}
+    - rev: live 
+{% endif %}
     - target: /home/dashboard/IATI-Dashboard
     - user: dashboard
 

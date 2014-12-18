@@ -1,5 +1,6 @@
 <VirtualHost *:80>
-ServerName new.dashboard.iatistandard.org
+ServerName dashboard.iatistandard.org
+ServerAlias *.dashboard.iatistandard.org
 DocumentRoot /home/dashboard/IATI-Dashboard/web
 Alias /stats /home/dashboard/IATI-Stats/gitout
 DirectoryIndex index.html
