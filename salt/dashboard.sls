@@ -198,3 +198,10 @@ apache2:
     - minute: 1
     - hour: 0
 
+curl "http://iatiregistry.org/api/1/search/dataset?isopen=false&limit=200" | grep -o '"[^"]*"' | sed -e 's/"//g' -e 's/-.*//' | sort | uniq -c | gist -u 24beac7d23282f9b15f4 -f license_not_open:
+  cron.present:
+    - identifier: license-not-open-gist
+    - user: dashboard
+    - minute: 0
+    - hour: 0
+
