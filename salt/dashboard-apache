@@ -3,9 +3,14 @@ ServerName dashboard.iatistandard.org
 ServerAlias *.dashboard.iatistandard.org
 DocumentRoot /home/dashboard/IATI-Dashboard/web
 Alias /stats /home/dashboard/IATI-Stats/gitout
+Alias /zips /home/dashboard/IATI-Registry-Refresher/zips
 DirectoryIndex index.html
-<Directory /home/dashboard/IATI-Dashboard/web/>
+<Directory /home/dashboard/IATI-Registry-Refresher/zips/>
 	Options Indexes FollowSymLinks
+        Require all granted
+</Directory>
+<Directory /home/dashboard/IATI-Dashboard/web/>
+        Options Indexes FollowSymLinks
         Require all granted
 </Directory>
 <Directory /home/dashboard/IATI-Stats/gitout/>
