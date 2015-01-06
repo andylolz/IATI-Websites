@@ -1,0 +1,3 @@
+base:
+  'iati-dashboard*':
+    - dashboard
