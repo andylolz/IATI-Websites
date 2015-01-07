@@ -16,7 +16,7 @@ git clone -n dashboard@webserver9.iatistandard.org:/home/dashboard/IATI-Registry
     - cwd: /home/backups
     - creates: /home/backups/dashboard-snapshot-data
     
-cd /home/backups; git fetch:
+cd /home/backups/dashboard-snapshot-data; git fetch:
   cron.present:
     - identifier: backup-dashboard
     - user: backups
