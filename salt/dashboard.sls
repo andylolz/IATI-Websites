@@ -160,6 +160,10 @@ https://github.com/IATI/IATI-Rulesets.git:
     file.symlink:
         - target: /home/dashboard/IATI-Stats/gitout
 
+/home/dashboard/IATI-Dashboard/stats-blacklist:
+    file.symlink:
+        - target: /home/dashboard/IATI-Stats/stats-blacklist
+
 webserver-deps:
     pkg.installed:
         - pkgs:
