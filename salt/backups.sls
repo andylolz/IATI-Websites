@@ -46,9 +46,7 @@ cd /home/backups/backup-github/; ./backup-github.sh:
     - user: backups
     - group: backups
 
-# TODO: Copy over old files
-# TODO: Set up deletion of old daily backups
-cd /home/backups/csv2iati; scp pythonuser@webserver2.iatistandard.org:/home/pythonuser/CSV-IATI-Converter.modeleditor/db/csviati.sqlite `date -I`.sqlite:
+cd /home/backups/csv2iati; scp pythonuser@webserver2.iatistandard.org:/home/pythonuser/CSV-IATI-Converter.modeleditor/db/csviati.sqlite `date -I`.sqlite; find -maxdepth 1 -type f -mtime +30 -exec rm {} \; mv *-01.sqlite monthly/:
   cron.present:
     - identifier: backup-csv2iati
     - user: backups
@@ -69,9 +67,6 @@ trello-backup-deps:
       - php5-cli
 
 # Currently trello-backup/config.php must be manually created
-# TODO: Copy over old files
-# TODO: This is IATI boards only
-# TODO: Set up deletion of old daily backups
 cd /home/backups/trello-backup; php trello-backup.php; gzip *.json; mkdir `date -I`;  mv *.json.gz `date -I`:
   cron.present:
     - identifier: trello-backup
