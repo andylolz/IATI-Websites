@@ -46,7 +46,7 @@ cd /home/backups/backup-github/; ./backup-github.sh:
     - user: backups
     - group: backups
 
-cd /home/backups/csv2iati; scp pythonuser@webserver2.iatistandard.org:/home/pythonuser/CSV-IATI-Converter.modeleditor/db/csviati.sqlite `date -I`.sqlite; find -maxdepth 1 -type f -mtime +30 -exec rm {} \; mv *-01.sqlite monthly/:
+cd /home/backups/csv2iati; scp pythonuser@webserver2.iatistandard.org:/home/pythonuser/CSV-IATI-Converter.modeleditor/db/csviati.sqlite `date -I`.sqlite; find -maxdepth 1 -type f -mtime +30 -exec rm {} \; ; mv *-01.sqlite monthly/:
   cron.present:
     - identifier: backup-csv2iati
     - user: backups
