@@ -19,6 +19,7 @@ git config --global user.email "code@iatistandard.org":
 registry-refresher-deps:
   pkg.installed:
     - pkgs:
+      - git-core
       - php5-cli
       - php5-curl
       - libxml2-utils
@@ -66,7 +67,6 @@ https://github.com/idsdata/IATI-Urls-Snapshot.git:
 stats-deps:
     pkg.installed:
         - pkgs:
-            - git-core
             - python-pip
             - python-virtualenv
             - python-dev
