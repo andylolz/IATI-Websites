@@ -189,6 +189,7 @@ apache2:
   file.managed:
     - source: salt://full-dashboard-run.sh
     - user: dashboard
+    - mode: 755
 
 /home/dashboard/logs:
   file.directory:
@@ -200,12 +201,17 @@ apache2:
   cron.present:
     - user: dashboard
     - minute: 1
+{% if saltenv == 'dev' %}
+    - hour: 6
+{% else %}
     - hour: 0
+{% endif %}
 
+{% if saltenv != 'dev' %}
 curl "http://iatiregistry.org/api/1/search/dataset?isopen=false&limit=200" | grep -o '"[^"]*"' | sed -e 's/"//g' -e 's/-.*//' | sort | uniq -c | gist -u 24beac7d23282f9b15f4 -f license_not_open:
   cron.present:
     - identifier: license-not-open-gist
     - user: dashboard
     - minute: 0
     - hour: 0
-
+{% endif %}
