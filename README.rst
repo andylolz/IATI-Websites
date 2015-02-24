@@ -69,7 +69,7 @@ test.ping
 
     As with any salt command, we can use a glob to run this against all servers.
 
-    .. code-block:: bash
+    .. code-block::
 
         salt-ssh '*' test.ping
 
@@ -145,3 +145,11 @@ Which is currently equivalent to:
 
 (which needs to explicitly specify the dev environment!)
 
+Using IATI's states on your own servers
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you want to use IATI's states to set up your own server, you can create your own roster file for your servers, and then use the ``--roster-file`` option to tell salt-ssh, e.g.
+
+.. code-block::
+
+    salt-ssh --roster-file my_roster '*' test.ping
