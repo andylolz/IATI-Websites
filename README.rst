@@ -23,9 +23,11 @@ In the IATI-Websites directory you can run:
 
 .. code-block::
 
-    salt-ssh --priv ~/.ssh/id_rsa -c salt-config <servername> <salt command>
+    salt-ssh --priv ~/.ssh/id_rsa <servername> <salt command>
 
 (This may need to run as root, or the permissions on the salt cache directory changing. You will also need to have set up your public key for passwordless login on the server, see next section)
+
+(If run in the IATI-Websites directory, this command discovers there is a ``Saltfile``, and uses the config location in that, namely the salt-config subdirectory.)
 
 <servername> is defined in the roster (https://github.com/IATI/IATI-Websites/blob/master/salt-config/roster)
 
@@ -36,14 +38,14 @@ state.highstate
 
     .. code-block::
 
-        salt-ssh --priv ~/.ssh/id_rsa -c salt-config <servername> state.highstate
+        salt-ssh --priv ~/.ssh/id_rsa <servername> state.highstate
 
 state.sls
     this can be used to specify a single state explicitly, e.g.
 
     .. code-block::
 
-        salt-ssh --priv ~/.ssh/id_rsa -c salt-config <servername> state.sls <statename> [<environment name>]``
+        salt-ssh --priv ~/.ssh/id_rsa <servername> state.sls <statename> [<environment name>]``
 
 pkg.upgrade
     to update the packages on the server. This is equivalent to ssh’ing in and running apt-get/aptitude update/upgrade manually.
@@ -56,13 +58,13 @@ Therefore, to set up the live dashboard server, we can do:
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa -c salt-config 'iati-dashboard-live' state.highstate
+    salt-ssh --priv ~/.ssh/id_rsa 'iati-dashboard-live' state.highstate
 
 This is current equivalent to:
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa -c salt-config 'iati-dashboard-live' state.sls dashboard
+    salt-ssh --priv ~/.ssh/id_rsa 'iati-dashboard-live' state.sls dashboard
 
 (no environment name is specified as this is defined as dev)
 
@@ -70,13 +72,13 @@ Similarly to set up the dev dashboard server, we can do:
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa -c salt-config 'iati-dashboard-dev' state.highstate
+    salt-ssh --priv ~/.ssh/id_rsa 'iati-dashboard-dev' state.highstate
 
 Which is currently equivalent to:
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa -c salt-config 'iati-dashboard-dev' state.sls dashboard dev
+    salt-ssh --priv ~/.ssh/id_rsa 'iati-dashboard-dev' state.sls dashboard dev
 
 (which needs to explicitly specify the dev environment!)
 
@@ -84,7 +86,7 @@ The nice thing about salt, and about using top.sls and state.highstate instead o
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa -c salt-config '*' state.highstate
+    salt-ssh --priv ~/.ssh/id_rsa '*' state.highstate
 
 (although currently we aren’t using this much in practice because we have so few servers).
 
