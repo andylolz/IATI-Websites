@@ -15,7 +15,7 @@ This directory is for templates, configuration and issues that relate to IATI we
 Using salt-ssh
 --------------
 
-The ``salt`` directory in repository contains salt states, whereas ``salt-config`` contains our config for using these with salt-ssh.
+The ``salt`` directory in repository contains salt states, whereas ``salt-config`` contains our config for using these with salt-ssh. The ``Saltfile`` ensures that is a salt-ssh command is run in the IATI-Websites directory, then salt-config is used as the config directory.
 
 Because the number of IATI servers is relatively small, we use the slower but easier method of salt provisioning, salt-ssh. Unlike some of the other approaches to salt provisioning where you need a publicly accessible server as the "master", salt-ssh can be run from your local machine.
 
@@ -25,9 +25,40 @@ In the IATI-Websites directory you can run:
 
     salt-ssh --priv ~/.ssh/id_rsa <servername> <salt command>
 
-(This may need to run as root, or the permissions on the salt cache directory changing. You will also need to have set up your public key for passwordless login on the server, see next section)
+Where ``~/.ssh/id_rsa`` is the private key you use for connecting to thes servers.
 
-(If run in the IATI-Websites directory, this command discovers there is a ``Saltfile``, and uses the config location in that, namely the salt-config subdirectory.)
+Runing as a non-root user
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default salt needs to be run as the root user, but this can be avoided by creating ``salt-config/master.d/localuser.conf`` (first do ``mkdir salt-config/master.d``) with the following content:
+
+.. code-block::
+
+    cachedir: /home/bjwebb/code/bjwebb-deploy/cache/
+    log_file: /home/bjwebb/code/bjwebb-deploy/log/
+    pki_dir: /home/bjwebb/code/bjwebb-deploy/salt-config/pki/
+    user: bjwebb
+
+Avoid specifying the private key each time
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To avoid having to specify a key on the command line, I add symlinks from the default location:
+
+.. code-block:: bash
+
+    mkdir -p salt-config/pki/ssh
+    cd salt-config/pki/ssh
+    ln -s ~/.ssh/id_rsa salt-config/pki/ssh/salt-ssh.rsa
+    ln -s ~/.ssh/id_rsa.pub salt-config/pki/ssh/salt-ssh.rsa.pub
+
+You should then be able to run simply:
+
+.. code-block::
+
+    salt-ssh <servername> <salt command>
+
+Example Commands
+^^^^^^^^^^^^^^^^
 
 <servername> is defined in the roster (https://github.com/IATI/IATI-Websites/blob/master/salt-config/roster)
 
@@ -38,14 +69,14 @@ state.highstate
 
     .. code-block::
 
-        salt-ssh --priv ~/.ssh/id_rsa <servername> state.highstate
+        salt-ssh <servername> state.highstate
 
 state.sls
     this can be used to specify a single state explicitly, e.g.
 
     .. code-block::
 
-        salt-ssh --priv ~/.ssh/id_rsa <servername> state.sls <statename> [<environment name>]``
+        salt-ssh <servername> state.sls <statename> [<environment name>]``
 
 pkg.upgrade
     to update the packages on the server. This is equivalent to ssh’ing in and running apt-get/aptitude update/upgrade manually.
@@ -58,13 +89,13 @@ Therefore, to set up the live dashboard server, we can do:
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa 'iati-dashboard-live' state.highstate
+    salt-ssh 'iati-dashboard-live' state.highstate
 
 This is current equivalent to:
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa 'iati-dashboard-live' state.sls dashboard
+    salt-ssh 'iati-dashboard-live' state.sls dashboard
 
 (no environment name is specified as this is defined as dev)
 
@@ -72,13 +103,13 @@ Similarly to set up the dev dashboard server, we can do:
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa 'iati-dashboard-dev' state.highstate
+    salt-ssh  'iati-dashboard-dev' state.highstate
 
 Which is currently equivalent to:
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa 'iati-dashboard-dev' state.sls dashboard dev
+    salt-ssh 'iati-dashboard-dev' state.sls dashboard dev
 
 (which needs to explicitly specify the dev environment!)
 
@@ -86,7 +117,6 @@ The nice thing about salt, and about using top.sls and state.highstate instead o
 
 .. code-block:: bash
 
-    salt-ssh --priv ~/.ssh/id_rsa '*' state.highstate
+    salt-ssh '*' state.highstate
 
 (although currently we aren’t using this much in practice because we have so few servers).
-
