@@ -64,6 +64,15 @@ Example Commands
 
 <salt command> may be:
 
+test.ping
+    check that servers are there, and set up correctly.
+
+    As with any salt command, we can use a glob to run this against all servers.
+
+    .. code-block:: bash
+
+        salt-ssh '*' test.ping
+
 state.highstate
     this deploys the states as defined in the top.sls file, e.g.
 
@@ -81,11 +90,34 @@ state.sls
 pkg.upgrade
     to update the packages on the server. This is equivalent to ssh’ing in and running apt-get/aptitude update/upgrade manually.
 
+    This is something we might want to run against all dev servers at once, and then live servers. We can use globs for this
+
+    .. code-block:: 
+
+        salt-ssh '*-dev' pkg.upgrade
+        salt-ssh '*-backups' pkg.upgrade
+        salt-ssh '*-live' pkg.upgrade
+
+file.file_exists
+    Check whether a file exists on the server. This is useful for seeing whether the server needs a reboot. e.g.
+
+    .. code-block:: 
+
+        salt-ssh '*' file.file_exists '/var/run/reboot-required'
+
+system.reboot
+    reboots the server.
+
 We have two salt environments defined, base and dev. These currently point to the same state files, but these state files may behave differently if the environment is dev. (ie. using ``{% if saltenv == 'dev' %}``).
 
-The top file (salt/top.sls) assigns each server to base or dev, and lists the states that should be set up when highstate is run.
+Top file and high state
+^^^^^^^^^^^^^^^^^^^^^^^
 
-Therefore, to set up the live dashboard server, we can do:
+The top file (salt/top.sls) assigns each server to the base or dev environment, and lists the states that should be set up when highstate is run.
+
+Currently not all our servers are listed in top.sls, so not all can successfully run highstate. This is because we are not yet managing these servers with salt states. However, we can still use salt for other routine tasks on these servers, like package updates.
+
+Therefore, to set up/update the live dashboard server, we can do:
 
 .. code-block:: bash
 
@@ -113,10 +145,3 @@ Which is currently equivalent to:
 
 (which needs to explicitly specify the dev environment!)
 
-The nice thing about salt, and about using top.sls and state.highstate instead of state.sls directly is that we can update multiple differently configured servers at once, e.g.:
-
-.. code-block:: bash
-
-    salt-ssh '*' state.highstate
-
-(although currently we aren’t using this much in practice because we have so few servers).
