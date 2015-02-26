@@ -30,14 +30,14 @@ Where ``~/.ssh/id_rsa`` is the private key you use for connecting to thes server
 Runing as a non-root user
 ^^^^^^^^^^^^^^^^^^^^^^^^^
 
-By default salt needs to be run as the root user, but this can be avoided by creating ``salt-config/master.d/localuser.conf`` (first do ``mkdir salt-config/master.d``) with the following content:
+By default salt needs to be run as the root user, but this can be avoided by creating ``salt-config/master.d/localuser.conf`` (first do ``mkdir salt-config/master.d``) with the following content (with the parts in angle brackets replaced):
 
 .. code-block::
 
-    cachedir: /home/bjwebb/code/bjwebb-deploy/cache/
-    log_file: /home/bjwebb/code/bjwebb-deploy/log/
-    pki_dir: /home/bjwebb/code/bjwebb-deploy/salt-config/pki/
-    user: bjwebb
+    cachedir: <path of IATI-Websites directory>/cache/
+    log_file: <path of IATI-Websites directory>/log/
+    pki_dir: <path of IATI-Websites directory>/salt-config/pki/
+    user: <your user name>
 
 Avoid specifying the private key each time
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
