@@ -15,6 +15,8 @@ This directory is for templates, configuration and issues that relate to IATI we
 Using salt-ssh
 --------------
 
+Note: the instructions here assume a recent version of Salt. Although many linux distributions now package salt in the default repositories, the packages are likely to be out of date. It's recommended to install the most recent version of salt from http://docs.saltstack.com/en/latest/topics/installation/
+
 The ``salt`` directory in repository contains salt states, whereas ``salt-config`` contains our config for using these with salt-ssh. The ``Saltfile`` ensures that is a salt-ssh command is run in the IATI-Websites directory, then salt-config is used as the config directory.
 
 Because the number of IATI servers is relatively small, we use the slower but easier method of salt provisioning, salt-ssh. Unlike some of the other approaches to salt provisioning where you need a publicly accessible server as the "master", salt-ssh can be run from your local machine.
