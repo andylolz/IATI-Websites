@@ -49,7 +49,6 @@ To avoid having to specify a key on the command line, I add symlinks from the de
 .. code-block:: bash
 
     mkdir -p salt-config/pki/ssh
-    cd salt-config/pki/ssh
     ln -s ~/.ssh/id_rsa salt-config/pki/ssh/salt-ssh.rsa
     ln -s ~/.ssh/id_rsa.pub salt-config/pki/ssh/salt-ssh.rsa.pub
 
