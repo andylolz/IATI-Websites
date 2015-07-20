@@ -1,4 +1,22 @@
+# webserver2
+iati-2-live: 109.123.121.248
+# webserver3
 iati-dev: 77.92.77.3
+# webserver5.iatistandar
+iati-live: 77.92.77.20
+# webserver7
+# (D-Portal) the IATI Tech Team is not directly responsible for this
+# webserver10
 iati-backups: 83.170.85.222
+
+## Dashboard
+# webserver9
 iati-dashboard-live: 37.123.117.143
+# webserver11
 iati-dashboard-dev: 83.170.85.227
+
+## Datastore
+# webserver6
+iati-datastore-live: 77.92.77.148
+# webserver8
+iati-datastore-dev: 37.123.113.46

@@ -10,12 +10,6 @@ dashboard:
     - text: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC7n9MjUge04UZm9qYJj9Us0W4aOg8mddkpcXT2RmPzoJwT7zmIvxbVT9+uX61Q/W/PNp8YMDyIZB1WNYHfdjs/72ePCY4bIWNueedDT/W8I255WEuvEDnus1HsaocUgLNEA17ZFn7QOhyPX2jpBIac0wSv+3Zm/Rpa5n+uMpdyrTZcQK2fq8PqM/GyUv6nB7YzLYGjEv4yiYfgNCo1tzh3/jhMncfHCkHrWKqQbuKhbNzyrflrOIqUUjvoXOvRuQXsiNvV0DL1g3MbBnNFBUU6vNhHwCDOG9aqitFPpDouOEe6k4cxRqEwzPUZKGEMUIIji5/2OEsYu4fjYq6+M7Az backups@webserver10
     - makedirs: True
 
-git config --global user.name "Dashboard":
-  cmd.run
-
-git config --global user.email "code@iatistandard.org":
-  cmd.run
-
 registry-refresher-deps:
   pkg.installed:
     - pkgs:
@@ -25,6 +19,14 @@ registry-refresher-deps:
       - libxml2-utils
       - gist
       - zip
+
+git config --global user.name "Dashboard":
+  cmd.run:
+    - user: dashboard
+
+git config --global user.email "code@iatistandard.org":
+  cmd.run:
+    - user: dashboard
 
 /usr/bin/gist:
   file.symlink:
