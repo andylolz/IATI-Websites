@@ -304,3 +304,6 @@ dt:hover > a.headerlink {
     padding: 0 0 0 0;
 }
 
+.underline {
+    text-decoration: underline;
+}
