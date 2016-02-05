@@ -183,8 +183,11 @@
       {%- endif %}
           <div class="body">
             <div class="alpha-version">
-<p>Alpha version</p>
-<p style="color:#303030">Please note that the Datastore is currently in its first release.  Therefore, data queries may sometimes result in unexpected results.  We appreciate your understanding.</div>
+              <p>Alpha version</p>
+              <p style="color:#303030">Please note that the Datastore is currently in its first release.  Therefore, data queries may sometimes result in unexpected outputs.  In particualar, invalid publisher data has been known to cause problems when importing data into the Datastore.</p>
+
+              <p>If you receive any unexpected results, please let us know: <a href="mailto:support@iatistandard.org">support@iatistandard.org</a> We appreciate your understanding, and invite <a href="https://github.com/IATI/iati-datastore/blob/master/CONTRIBUTING.rst">contributions to the codebase</a>.</p>
+            </div>
             {% block body %} {% endblock %}
           </div>
       {%- if render_sidebar %}
