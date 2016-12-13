@@ -13,6 +13,8 @@
 # The public key for webserver3 must be added to the 'iatiuser' account on
 # webserver5.
 
+
+# Move to where data is stored to generate sites
 cd /home/ssot/live
 
 
@@ -50,14 +52,14 @@ for f in 1.04 1.05 2.01 2.02; do
     deactivate
     echo -e "DONE GENERATING SITE: $f \n\n"
 
+    # Folder names on the live webserver do not contain '.' in the version number
     site_folder="${f//.}"
 
     # Copy the output files to the live webserver
-    scp -r docs-copy/en/_build/dirhtml iatiuser@iatistandard.org:/home/iatiuser/temp_rsync_test/${site_folder}-new
-    # Real live rolder is '/home/iatiuser/ssot/'
+    scp -r docs-copy/en/_build/dirhtml iatiuser@iatistandard.org:~/ssot/${site_folder}-new
 
-    # Make a backup version of the current site, and make the new version live
-    ssh iatiuser@iatistandard.org "cd /home/iatiuser/temp_rsync_test/;mv ${site_folder} ${site_folder}-backup-$(date +\%Y\%m\%d-\%s);mv ${site_folder}-new ${site_folder}"
+    # On the live webserver, make a backup version of the current site, and make the new version live
+    ssh iatiuser@iatistandard.org "cd ~/ssot/;mv ${site_folder} ${site_folder}-backup-$(date +\%Y\%m\%d-\%s);mv ${site_folder}-new ${site_folder}"
 
     cd ..
 done
