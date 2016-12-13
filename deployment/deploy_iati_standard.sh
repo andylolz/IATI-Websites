@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Script to automate the deployment of the IATI Standard documentation.
-# Assumes running on webserver3 and versions 1.04, 1.05, 2.01 & 2.02 are
-# to be regenerated.
+# Assumes running on webserver3 and the documentation for versions 1.04,
+# 1.05, 2.01 & 2.02 are all to be regenerated.
 
 # Software dependencies must already be installed.
 
@@ -13,7 +13,7 @@
 cd /home/ssot/live
 
 
-# Ensure documentation and template dependencies are up to date
+# Ensure documentation and template dependencies are on the 'live' branches and up-to-date
 for f in IATI-Developer-Documentation/ IATI-Guidance/ IATI-Websites/; do
 	cd $f
 	echo -e "NOW IN FOLDER: $f \n\n"
