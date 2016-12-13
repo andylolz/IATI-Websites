@@ -10,6 +10,9 @@
 # of all files generated:
 # $ sudo -u ssot ./deploy_iati_standard.sh
 
+# The public key for webserver3 must be added to the 'iatiuser' account on
+# webserver5.
+
 cd /home/ssot/live
 
 
@@ -50,11 +53,11 @@ for f in 1.04 1.05 2.01 2.02; do
     site_folder="${f//.}"
 
     # Copy the output files to the live webserver
-    scp -r docs-copy/en/_build/dirhtml root@iatistandard.org:/home/iatiuser/temp_rsync_test/${site_folder}-new
+    scp -r docs-copy/en/_build/dirhtml iatiuser@iatistandard.org:/home/iatiuser/temp_rsync_test/${site_folder}-new
     # Real live rolder is '/home/iatiuser/ssot/'
 
     # Make a backup version of the current site, and make the new version live
-    ssh root@iatistandard.org "cd /home/iatiuser/temp_rsync_test/;mv ${site_folder} ${site_folder}-backup-$(date +\%Y\%m\%d-\%s);mv ${site_folder}-new ${site_folder}"
+    ssh iatiuser@iatistandard.org "cd /home/iatiuser/temp_rsync_test/;mv ${site_folder} ${site_folder}-backup-$(date +\%Y\%m\%d-\%s);mv ${site_folder}-new ${site_folder}"
 
     cd ..
 done
