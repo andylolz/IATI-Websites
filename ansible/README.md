@@ -18,4 +18,15 @@ ansible all -i inventory.ini --m ping -u root
 # Remotely execute code 
 ansible all -i inventory.ini -m command -u root --args "uptime"
 ansible all -i inventory.ini -m command -u root -a "uptime"
+
+# Execute a playbook
+ansible-playbook path/to/playbook.yml -i inventory.ini -u root
+```
+
+### No SSH key added yet?
+
+Use the `-k` flag to prompt for an SSH password. This will typically be required the first time you login - for example:
+
+```
+ansible-playbook path/to/playbook.yml -i inventory.ini -u root -k
 ```
