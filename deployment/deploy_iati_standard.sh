@@ -4,6 +4,8 @@
 # Assumes running on webserver3 and the documentation for versions 1.04,
 # 1.05, 2.01 & 2.02 are all to be regenerated.
 
+# Maintained under the `iati-bot` gist account.
+
 # Software dependencies must already be installed.
 
 # Script must be run as user 'ssot'. This ensures user 'ssot' is the owner
@@ -13,8 +15,6 @@
 # The public key for webserver3 must be added to the 'iatiuser' account on
 # webserver5.
 
-
-# Move to where data is stored to generate sites
 cd /home/ssot/live
 
 
@@ -33,7 +33,7 @@ echo -e "UPDATED DOCS & TEMPLATES \n\n"
 
 
 # Regenerate all versions of the sites, saving HTML outputs in '_build/dirhtml'
-for f in 1.04 1.05 2.01 2.02; do
+for f in 2.01 2.02 1.05 1.04; do
     cd $f
     echo -e "NOW IN FOLDER: $f \n\n"
 
@@ -52,13 +52,13 @@ for f in 1.04 1.05 2.01 2.02; do
     deactivate
     echo -e "DONE GENERATING SITE: $f \n\n"
 
-    # Folder names on the live webserver do not contain '.' in the version number
     site_folder="${f//.}"
 
     # Copy the output files to the live webserver
     scp -r docs-copy/en/_build/dirhtml iatiuser@iatistandard.org:~/ssot/${site_folder}-new
+    # Real live rolder is '/home/iatiuser/ssot/'
 
-    # On the live webserver, make a backup version of the current site, and make the new version live
+    # Make a backup version of the current site, and make the new version live
     ssh iatiuser@iatistandard.org "cd ~/ssot/;mv ${site_folder} ${site_folder}-backup-$(date +\%Y\%m\%d-\%s);mv ${site_folder}-new ${site_folder}"
 
     cd ..
