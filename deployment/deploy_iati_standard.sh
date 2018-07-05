@@ -55,11 +55,11 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
     site_folder="${f//.}"
 
     # Copy the output files to the live webserver
-    scp -r docs-copy/en/_build/dirhtml iatiuser@iatistandard.org:~/ssot/${site_folder}-new
+    scp -r docs-copy/en/_build/dirhtml iatiuser@reference.iatistandard.org:~/ssot/${site_folder}-new
     # Real live rolder is '/home/iatiuser/ssot/'
 
     # Make a backup version of the current site, and make the new version live
-    ssh iatiuser@iatistandard.org "cd ~/ssot/;mv ${site_folder} ${site_folder}-backup-$(date +\%Y\%m\%d-\%s);mv ${site_folder}-new ${site_folder}"
+    ssh iatiuser@reference.iatistandard.org "cd ~/ssot/;mv ${site_folder} ${site_folder}-backup-$(date +\%Y\%m\%d-\%s);mv ${site_folder}-new ${site_folder}"
 
     cd ..
 done
