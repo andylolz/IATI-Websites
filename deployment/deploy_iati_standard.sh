@@ -13,21 +13,6 @@
 # $ sudo -u ssot ./deploy_iati_standard.sh
 
 # The public key for webserver3 must be added to the 'iatiuser' account on
-# webserver5.#!/usr/bin/env bash
-
-# Script to automate the deployment of the IATI Standard documentation.
-# Assumes running on webserver3 and the documentation for versions 1.04,
-# 1.05, 2.01 & 2.02 are all to be regenerated.
-
-# Maintained under the `iati-bot` gist account.
-
-# Software dependencies must already be installed.
-
-# Script must be run as user 'ssot'. This ensures user 'ssot' is the owner
-# of all files generated:
-# $ sudo -u ssot ./deploy_iati_standard.sh
-
-# The public key for webserver3 must be added to the 'iatiuser' account on
 # webserver5.
 
 cd /home/ssot/live
