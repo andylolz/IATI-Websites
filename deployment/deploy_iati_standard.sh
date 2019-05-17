@@ -20,10 +20,10 @@ cd /home/ssot/live
 
 # Ensure documentation and template dependencies are on the 'live' branches and up-to-date
 for f in IATI-Developer-Documentation/ IATI-Guidance/ IATI-Websites/; do
-	cd $f
-	echo -e "NOW IN FOLDER: $f \n\n"
+    cd $f
+    echo -e "NOW IN FOLDER: $f \n\n"
 
-	git checkout live
+    git checkout live
     git pull
     echo -e "DONE CODE PULLS: $f \n\n"
 
@@ -33,7 +33,7 @@ echo -e "UPDATED DOCS & TEMPLATES \n\n"
 
 
 # Regenerate all versions of the sites, saving HTML outputs in '_build/dirhtml'
-for f in 2.01 2.02 2.03 1.05 1.04; do
+for f in 1.04 1.05 2.01 2.02 2.03; do
     cd $f
     echo -e "NOW IN FOLDER: $f \n\n"
 
@@ -55,11 +55,61 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
     site_folder="${f//.}"
 
     # Copy the output files to the live webserver
-    scp -r docs-copy/en/_build/dirhtml iatiuser@reference.iatistandard.org:~/ssot/${site_folder}-new
-    # Real live rolder is '/home/iatiuser/ssot/'
+    scp -r docs-copy/en/_build/dirhtml iatiuser@77.92.77.20:~/ssot/${site_folder}-new
+    # Real live folder is '/home/iatiuser/ssot/'
 
     # Make a backup version of the current site, and make the new version live
-    ssh iatiuser@reference.iatistandard.org "cd ~/ssot/;rm -rf ${site_folder}.bak;mv ${site_folder} ${site_folder}.bak;mv ${site_folder}-new ${site_folder}"
+    ssh iatiuser@77.92.77.20 "cd ~/ssot/;rm -rf ${site_folder}.bak;mv ${site_folder} ${site_folder}.bak;mv ${site_folder}-new ${site_folder}"
+
+    cd ..
+done
+
+
+cd /home/ssot/live
+
+
+# Ensure documentation and template dependencies are on the 'live' branches and up-to-date
+for f in IATI-Developer-Documentation/ IATI-Guidance/ IATI-Websites/; do
+    cd $f
+    echo -e "NOW IN FOLDER: $f \n\n"
+
+    git checkout live
+    git pull
+    echo -e "DONE CODE PULLS: $f \n\n"
+
+    cd ..
+done
+echo -e "UPDATED DOCS & TEMPLATES \n\n"
+
+
+# Regenerate all versions of the sites, saving HTML outputs in '_build/dirhtml'
+for f in 1.04 1.05 2.01 2.02 2.03; do
+    cd $f
+    echo -e "NOW IN FOLDER: $f \n\n"
+
+    # Ensure code and submodules are up-to-date with origin
+    git pull
+    git submodule update
+    echo -e "DONE CODE PULLS: $f \n\n"
+
+    # Set-up the environment and repository dependencies
+    source pyenv/bin/activate
+    pip install -r requirements.txt
+    echo -e "DONE VIRTUALENV AND PIP: $f \n\n"
+
+    # Run script that creates the static text of the SSOT (using the codelists to generate tables etc.)
+    ./combined_gen.sh
+    deactivate
+    echo -e "DONE GENERATING SITE: $f \n\n"
+
+    site_folder="${f//.}"
+
+    # Copy the output files to the live webserver
+    scp -r docs-copy/en/_build/dirhtml iatiuser@77.92.77.20:~/ssot/${site_folder}-new
+    # Real live folder is '/home/iatiuser/ssot/'
+
+    # Make a backup version of the current site, and make the new version live
+    ssh iatiuser@77.92.77.20 "cd ~/ssot/;rm -rf ${site_folder}.bak;mv ${site_folder} ${site_folder}.bak;mv ${site_folder}-new ${site_folder}"
 
     cd ..
 done
