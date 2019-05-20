@@ -19,12 +19,14 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 DEFAULT_DIR=/home/ssot/live
 
-while getopts "d:c" opt; do
+while getopts "d:cp" opt; do
     echo $OPTARG
     case "$opt" in
     d)  DIRECTORY=$OPTARG
         ;;
     c)  CHECKOUT=true
+        ;;
+    p)  PYTHON_2=true
         ;;
     esac
 done
@@ -72,7 +74,12 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
         echo "REMOVING EXISTING PYENV" 
         rm -Rf pyenv/
     fi
-    
+
+    if [ "$PYTHON_2" = true ]; then    
+        virtualenv --python=/usr/bin/python2.7 pyenv
+    else
+        python3 -m venv pyenv
+    fi
     source pyenv/bin/activate
     pip install -r requirements.txt
     echo -e "DONE VIRTUALENV AND PIP: $f \n\n"
