@@ -19,10 +19,12 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 DEFAULT_DIR=/home/ssot/live
 
-while getopts "d:" opt; do
+while getopts "d:c" opt; do
     echo $OPTARG
     case "$opt" in
     d)  DIRECTORY=$OPTARG
+        ;;
+    c)  CHECKOUT=true
         ;;
     esac
 done
@@ -54,6 +56,12 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
     echo -e "NOW IN FOLDER: $f \n\n"
 
     # Ensure code and submodules are up-to-date with origin
+    if [ "$CHECKOUT" = true ] ; then
+        git checkout version-$f
+        git pull origin version-$f
+    else
+        git pull
+    fi
     git pull
     git submodule update
     echo -e "DONE CODE PULLS: $f \n\n"
