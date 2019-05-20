@@ -67,6 +67,12 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
     echo -e "DONE CODE PULLS: $f \n\n"
 
     # Set-up the environment and repository dependencies
+
+    if [ -d "pyenv/" ]; then
+        echo "REMOVING EXISTING PYENV" 
+        rm -Rf pyenv/
+    fi
+    
     source pyenv/bin/activate
     pip install -r requirements.txt
     echo -e "DONE VIRTUALENV AND PIP: $f \n\n"
