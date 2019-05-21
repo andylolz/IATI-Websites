@@ -19,7 +19,7 @@ OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
 DEFAULT_DIR=/home/ssot/live
 
-while getopts "d:cp" opt; do
+while getopts "d:cph" opt; do
     echo $OPTARG
     case "$opt" in
     d)  DIRECTORY=$OPTARG
@@ -27,6 +27,18 @@ while getopts "d:cp" opt; do
     c)  CHECKOUT=true
         ;;
     p)  PYTHON_2=true
+        ;;
+    h)  echo "Usage:"
+        echo "    build_iati_standard.sh [-d [path/to/dir]] [-h] [-c] [-p]."
+        echo "    -d [path/to/dir]    specify a build path for the SSOT"
+        echo "    -c                  force check out base branches (version-2.03 etc) for build"
+        echo "    -p                  use Python 2.x virtual environment"
+        echo "    -h                  display this menu"
+        exit 0
+        ;;
+    \? )
+        echo "Option invalid: -$OPTARG" 1>&2
+        exit 1
         ;;
     esac
 done
@@ -41,11 +53,11 @@ cd ${DIRECTORY:-$DEFAULT_DIR}
 # Ensure documentation and template dependencies are on the 'live' branches and up-to-date
 for f in IATI-Developer-Documentation/ IATI-Guidance/ IATI-Websites/; do
     cd $f
-    echo -e "NOW IN FOLDER: $f \n\n"
+    echo -e "NOW IN FOLDER: $PWD \n\n"
 
     git checkout live
     git pull
-    echo -e "DONE CODE PULLS: $f \n\n"
+    echo -e "DONE CODE PULLS: $PWD \n\n"
 
     cd ..
 done
@@ -55,7 +67,8 @@ echo -e "UPDATED DOCS & TEMPLATES \n\n"
 # Regenerate all versions of the sites, saving HTML outputs in '_build/dirhtml'
 for f in 2.01 2.02 2.03 1.05 1.04; do
     cd $f
-    echo -e "NOW IN FOLDER: $f \n\n"
+    site_folder="${f//.}"
+    echo -e "NOW IN FOLDER: $PWD \n\n"
 
     # Ensure code and submodules are up-to-date with origin
     if [ "$CHECKOUT" = true ] ; then
@@ -64,12 +77,21 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
     else
         git pull
     fi
-    git pull
-    git submodule update
+
+    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    git fetch origin
+
+    git reset --hard HEAD^1
+    git clean -fd
+
+    git checkout $UPGRADE_BRANCH
+    git pull origin $UPGRADE_BRANCH
+    git submodule deinit --all -f
+    git submodule update --init --recursive
     echo -e "DONE CODE PULLS: $f \n\n"
 
     # Set-up the environment and repository dependencies
-
+    # Remove existing pyenv to replace with new
     if [ -d "pyenv/" ]; then
         echo "REMOVING EXISTING PYENV" 
         rm -Rf pyenv/
@@ -88,8 +110,6 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
     ./combined_gen.sh
     deactivate
     echo -e "DONE GENERATING SITE: $f \n\n"
-
-    site_folder="${f//.}"
 
     cd ..
 done
