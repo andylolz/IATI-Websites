@@ -98,9 +98,20 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
     else
         python3 -m venv pyenv
     fi
+
     source pyenv/bin/activate
     pip install -r requirements.txt
     echo -e "DONE VIRTUALENV AND PIP: $f \n\n"
+
+    # Symlink styles
+    echo "SYMLINKING STYLING"
+    cd IATI-Extra-Documentation/en
+    ln -s ../../../IATI-Websites/iatistandard/_templates/ ./
+    ln -s ../../../IATI-Websites/iatistandard/_static/ ./
+    ln -s ../../../IATI-Websites/iatistandard/_templates/layout_dev.html ./_templates/layout.html
+
+    # Generate a version of the documentation
+    cd ../../
 
     # Run script that creates the static text of the SSOT (using the codelists to generate tables etc.)
     ./combined_gen.sh
