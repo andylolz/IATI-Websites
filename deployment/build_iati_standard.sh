@@ -108,7 +108,6 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
     cd IATI-Extra-Documentation/en
     ln -s ../../../IATI-Websites/iatistandard/_templates/ ./
     ln -s ../../../IATI-Websites/iatistandard/_static/ ./
-    ln -s ../../../IATI-Websites/iatistandard/_templates/layout_dev.html ./_templates/layout.html
 
     # Generate a version of the documentation
     cd ../../
