@@ -10,8 +10,8 @@
 # of all files generated:
 # $ sudo -u ssot ./deploy_iati_standard.sh
 
-# The public key for the dev instance that this script is to be run on must
-# be an authorised key of the live instance.
+# The public key for the user that this script is to be run on must
+# be an authorised key of the user of the live instance.
 
 DEFAULT_DIR=/home/ssot/live
 DEFAULT_SSH_USER=iatiuser

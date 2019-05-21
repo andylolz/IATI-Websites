@@ -4,16 +4,11 @@
 # Assumes running on webserver3 and the documentation for versions 1.04,
 # 1.05, 2.01 & 2.02 are all to be regenerated.
 
-# Maintained under the `iati-bot` gist account.
-
 # Software dependencies must already be installed.
 
 # Script must be run as user 'ssot'. This ensures user 'ssot' is the owner
 # of all files generated:
-# $ sudo -u ssot ./deploy_iati_standard.sh
-
-# The public key for webserver3 must be added to the 'iatiuser' account on
-# webserver5.
+# $ sudo -u ssot ./build_iati_standard.sh
 
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
@@ -70,6 +65,15 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
     site_folder="${f//.}"
     echo -e "NOW IN FOLDER: $PWD \n\n"
 
+
+
+    # Ensure that directories are up to date and clean of changes
+    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+    git fetch origin
+
+    git reset --hard HEAD^1
+    git clean -fd
+
     # Ensure code and submodules are up-to-date with origin
     if [ "$CHECKOUT" = true ] ; then
         git checkout version-$f
@@ -78,14 +82,6 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
         git pull
     fi
 
-    git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
-    git fetch origin
-
-    git reset --hard HEAD^1
-    git clean -fd
-
-    git checkout $UPGRADE_BRANCH
-    git pull origin $UPGRADE_BRANCH
     git submodule deinit --all -f
     git submodule update --init --recursive
     echo -e "DONE CODE PULLS: $f \n\n"
