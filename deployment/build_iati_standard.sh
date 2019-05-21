@@ -6,22 +6,20 @@
 
 # Software dependencies must already be installed.
 
-# Script must be run as user 'ssot'. This ensures user 'ssot' is the owner
+# Script must be run as user 'iati'. This ensures user 'iati' is the owner
 # of all files generated:
-# $ sudo -u ssot ./build_iati_standard.sh
+# $ sudo -u iati ./build_iati_standard.sh
 
 OPTIND=1         # Reset in case getopts has been used previously in the shell.
 
-DEFAULT_DIR=/home/ssot/live
+DEFAULT_DIR=/var/www/dev.reference.iatistandard.org/html
 
-while getopts "d:cph" opt; do
+while getopts "d:ch" opt; do
     echo $OPTARG
     case "$opt" in
     d)  DIRECTORY=$OPTARG
         ;;
     c)  CHECKOUT=true
-        ;;
-    p)  PYTHON_2=true
         ;;
     h)  echo "Usage:"
         echo "    build_iati_standard.sh [-d [path/to/dir]] [-h] [-c] [-p]."
@@ -93,12 +91,8 @@ for f in 2.01 2.02 2.03 1.05 1.04; do
         rm -Rf pyenv/
     fi
 
-    if [ "$PYTHON_2" = true ]; then    
-        virtualenv --python=/usr/bin/python2.7 pyenv
-    else
-        python3 -m venv pyenv
-    fi
 
+    python3 -m venv pyenv
     source pyenv/bin/activate
     pip install -r requirements.txt
     echo -e "DONE VIRTUALENV AND PIP: $f \n\n"

@@ -6,18 +6,18 @@
 
 # Software dependencies must already be installed.
 
-# Script must be run as user 'ssot'. This ensures user 'ssot' is the owner
+# Script must be run as user 'iati'. This ensures user 'iati' is the owner
 # of all files generated:
-# $ sudo -u ssot ./deploy_iati_standard.sh
+# $ sudo -u iati ./deploy_iati_standard.sh
 
 # The public key for the user that this script is to be run on must
 # be an authorised key of the user of the live instance.
 
-DEFAULT_DIR=/home/ssot/live
-DEFAULT_SSH_USER=iatiuser
-DEFAULT_SSH_HOST=77.92.77.20
+DEFAULT_DIR=/var/www/dev.reference.iatistandard.org/html
+DEFAULT_SSH_USER=iati
+DEFAULT_SSH_HOST=134.209.18.180
 DEFAULT_BUILD_DIR=docs-copy/en/_build/dirhtml
-DEFAULT_REMOTE_DIR=~/ssot
+DEFAULT_REMOTE_DIR=/var/www/reference.iatistandard.org/html
 
 while getopts "d:s:i:b:r:h" opt; do
     echo $OPTARG
