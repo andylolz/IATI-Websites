@@ -70,7 +70,7 @@ for f in 1.04 1.05 2.01 2.02 2.03; do
     # Real live folder is '/home/iatiuser/ssot/'
 
     # Make a backup version of the current site, and make the new version live
-    ssh ${SSH_USER}@${SSH_HOST} "cd ${DEFAULT_REMOTE_DIR}/;rm -rf ${site_folder}.bak;mv ${site_folder} ${site_folder}.bak;mv ${site_folder}-new ${site_folder}"
+    ssh ${SSH_USER}@${SSH_HOST} "cd ${DEFAULT_REMOTE_DIR}/;if [ -d ${site_folder} ]; then rm -rf ${site_folder}.bak; fi;mv ${site_folder} ${site_folder}.bak;mv ${site_folder}-new ${site_folder}"
 
     cd ..
 done
