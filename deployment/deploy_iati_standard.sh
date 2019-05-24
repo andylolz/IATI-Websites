@@ -71,10 +71,10 @@ for f in 1.04 1.05 2.01 2.02 2.03; do
     # Copy the output files to the live webserver
     echo "COPYING BUILD DIRECTORY TO REMOTE AS NEW VERSION"
 
-    rsync -ai ${BUILD_DIR} ${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}/${f}-new
+    scp -r ${BUILD_DIR} ${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}/${f}-new
 
     # Make a backup version of the current site, and make the new version live
-    ssh ${SSH_USER}@${SSH_HOST} "cd ${REMOTE_DIR};if [ -d ${BACKUP_DIR}/${f}.bak ]; then rm -rf ${f}.bak; fi;mv $f ${BACKUP_DIR}/${f}.bak;mv ${f}-new $f;"
+    ssh ${SSH_USER}@${SSH_HOST} "cd ${REMOTE_DIR};if [ -d ${BACKUP_DIR}/${f}.bak ]; then rm -rf ${BACKUP_DIR}/${f}.bak; fi;mv $f ${BACKUP_DIR}/${f}.bak;mv ${f}-new $f;"
 
     cd ..
 done
