@@ -1,8 +1,8 @@
 {% extends "layout_base.html" %}
 {% block site_notice %}
-    {% if "1.0" in version|slice:3 %}
+    {% if version in ["1.01", "1.02", "1.03", "1.04", "1.05"] %}
         <div id="site-notice" style="background-color: red">
-            <strong>Version {{ version }} of the IATI Standard is no longer supported. <a href="/upgrades/all-versions/">Please see other versions</a>.</strong>
+            <strong>Version {{ version }} of the IATI Standard is no longer supported. <a href="/upgrades/all-versions/">Please use other versions</a>.</strong>
         </div>
     {% else %}
         <div id="site-notice">
